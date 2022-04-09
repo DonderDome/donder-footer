@@ -25,23 +25,23 @@ import { actionHandler } from './action-handler-directive';
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  JARVIS-WIDGET-TEMPLATE \n%c  version: ${CARD_VERSION}  `,
+  `%c  jarvis-footer \n%c  version: ${CARD_VERSION}  `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
 
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'jarvis-widget-template',
+  type: 'jarvis-footer',
   name: 'Boilerplate Card',
   description: 'A template custom card for you to create something awesome',
 });
 
 export class BoilerplateCard extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    // REPLACE "jarvis-widget-template" with widget name, everywhere in the project
+    // REPLACE "jarvis-footer" with widget name, everywhere in the project
     // REPLACE the file name with the actual widget name
-    return document.createElement('jarvis-widget-template-editor');
+    return document.createElement('jarvis-footer-editor');
   }
 
   public static getStubConfig(): Record<string, unknown> {
@@ -100,37 +100,52 @@ export class BoilerplateCard extends LitElement {
     `;
   }
 
+  private navigate(isSelected: boolean) {
+
+    this.hass.callService('browser_mod', 'navigate', {navigation_path: isSelected ? '/lovelace/0' : this.config.navigation_path})
+  }
+
   static get styles(): CSSResultGroup {
     return css`
-      /* REPLACE "jarvis-widget-template" with actual widget name */
-      .type-custom-jarvis-widget-template {
+      /* REPLACE "jarvis-footer" with actual widget name */
+      .type-custom-jarvis-footer {
         height: 100%;
         width: 100%;
       }
       .jarvis-widget {
         height: 100%;
         width: 100%;
-        position: absolute;
+        /* position: absolute; */
         top: 0;
         left: 0;
-        padding: 20px;
+        /* padding: 20px; */
         box-sizing: border-box;
-        border: 1px solid #fff;
+      }
+      .jarvis-widget.transparent {
+        opacity: .5;
+      }
+      .jarvis-nav-wrapper {
+
+      }
+      .jarvis-nav-title {
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-stretch: 160%;
+        border-left: 3px solid rgb(72, 75, 92);
+        line-height: 1em;
+        padding-left: 7px;
+      }
+      .jarvis-nav-button {
+        background: url('/local/jarvis/assets/floor_frame.svg');
+        padding: 50px;
+        background-position: center;
+        background-repeat: no-repeat;
       }
     `;
   }
 
   protected render(): TemplateResult | void {
-    /*
-      ## INTERFACE
-      - this.hass: A lot of information about everything in HA, such as states, theme, etc. The source of the tree
-        - states: States of each of the components available
-      - this.config: Lovelace settings for this instance
-
-      Example: this.hass.states[this.config.entities[0]] shows the state of the first component
-     */
-
-    // TODO Check for stateObj or other necessary things and render a warning if missing
     if (this.config.show_warning) {
       return this._showWarning('warning message');
     }
@@ -139,21 +154,26 @@ export class BoilerplateCard extends LitElement {
       return this._showError('error message');
     }
 
+    const isSelected = this.config.navigation_path === window.location.pathname
+    const isJarvis = window.location.pathname === '/lovelace/0'
+    const isTransparent = !isJarvis && !isSelected
+
     return html`
       <ha-card
-        .header=${this.config.name}
         @action=${this._handleAction}
-        .actionHandler=${actionHandler({
-          hasHold: hasAction(this.config.hold_action),
-          hasDoubleClick: hasAction(this.config.double_tap_action),
-        })}
         tabindex="0"
-        .label=${`Boilerplate: ${this.config || 'No Entity Defined'}`}
       >
-        <div class='jarvis-widget'>It's the template!</div>
+        <div class=${'jarvis-widget '+ (isTransparent ? 'transparent' : '')} @click="${() => this.navigate(isSelected)}">
+          <div class="jarvis-nav-wrapper">
+            <div class="jarvis-nav-title">
+              ${this.config.name}
+            </div>
+            <div class="jarvis-nav-button"></div>
+          </div>
+        </div>
       </ha-card>
     `;
   }
 }
 
-customElements.define("jarvis-widget-template", BoilerplateCard);
+customElements.define("jarvis-footer", BoilerplateCard);

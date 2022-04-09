@@ -162,16 +162,16 @@ class ActionHandler extends HTMLElement implements ActionHandler {
   }
 }
 
-// DONE You need to replace all instances of "action-handler-jarvis-widget-template" with "action-handler-<your card name>"
-customElements.define('action-handler-jarvis-widget-template', ActionHandler);
+// DONE You need to replace all instances of "action-handler-jarvis-footer" with "action-handler-<your card name>"
+customElements.define('action-handler-jarvis-footer', ActionHandler);
 
 const getActionHandler = (): ActionHandler => {
   const body = document.body;
-  if (body.querySelector('action-handler-jarvis-widget-template')) {
-    return body.querySelector('action-handler-jarvis-widget-template') as ActionHandler;
+  if (body.querySelector('action-handler-jarvis-footer')) {
+    return body.querySelector('action-handler-jarvis-footer') as ActionHandler;
   }
 
-  const actionhandler = document.createElement('action-handler-jarvis-widget-template');
+  const actionhandler = document.createElement('action-handler-jarvis-footer');
   body.appendChild(actionhandler);
 
   return actionhandler as ActionHandler;
