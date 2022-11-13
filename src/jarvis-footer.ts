@@ -120,6 +120,7 @@ export class BoilerplateCard extends LitElement {
         left: 0;
         /* padding: 20px; */
         box-sizing: border-box;
+        color: #fff;
       }
       .jarvis-widget.transparent {
         opacity: .5;
