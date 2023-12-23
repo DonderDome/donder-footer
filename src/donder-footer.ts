@@ -181,6 +181,7 @@ export class BoilerplateCard extends LitElement {
           hasDoubleClick: hasAction(this.config.double_tap_action),
         })}
         @click=${(ev) => this.navigate(ev)}
+        class='ha-badge'
       >
         <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
         <div class="ha-badge-content">
@@ -205,7 +206,6 @@ export class BoilerplateCard extends LitElement {
 
     return html`
       <ha-card
-        .header=${this.config.name}
         @action=${this._handleAction}
         .actionHandler=${actionHandler({
           hasHold: hasAction(this.config.hold_action),

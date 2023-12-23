@@ -240,6 +240,7 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
         @action=${this._handleAction}
         .actionHandler=${Et({hasHold:_t(this.config.hold_action),hasDoubleClick:_t(this.config.double_tap_action)})}
         @click=${t=>this.navigate(t)}
+        class='ha-badge'
       >
         <ha-icon icon=${t.icon||"mdi:home"}></ha-icon>
         <div class="ha-badge-content">
@@ -249,7 +250,6 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
       </ha-card>
     `}render(){if(this.config.show_warning)return this._showWarning("warning message");if(this.config.show_error)return this._showError("error message");const t=this.hass.states["donder_env.global"].attributes,{rooms:e}=t;return O`
       <ha-card
-        .header=${this.config.name}
         @action=${this._handleAction}
         .actionHandler=${Et({hasHold:_t(this.config.hold_action),hasDoubleClick:_t(this.config.double_tap_action)})}
         tabindex="0"
