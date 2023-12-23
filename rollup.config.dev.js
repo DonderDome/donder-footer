@@ -6,7 +6,7 @@ import { terser } from "rollup-plugin-terser";
 import json from '@rollup/plugin-json';
 
 export default {
-  input: ["src/jarvis-footer.ts"],
+  input: ["src/donder-footer.ts"],
   output: {
     dir: "./dist",
     format: "es",

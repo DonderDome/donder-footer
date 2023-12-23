@@ -25,23 +25,23 @@ import { actionHandler } from './action-handler-directive';
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  jarvis-footer \n%c  version: ${CARD_VERSION}  `,
+  `%c  donder-footer \n%c  version: ${CARD_VERSION}  `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
 
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'jarvis-footer',
-  name: 'Boilerplate Card',
+  type: 'donder-footer',
+  name: 'Donder Footer',
   description: 'A template custom card for you to create something awesome',
 });
 
 export class BoilerplateCard extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    // REPLACE "jarvis-footer" with widget name, everywhere in the project
+    // REPLACE "donder-footer" with widget name, everywhere in the project
     // REPLACE the file name with the actual widget name
-    return document.createElement('jarvis-footer-editor');
+    return document.createElement('donder-footer-editor');
   }
 
   public static getStubConfig(): Record<string, unknown> {
@@ -62,7 +62,7 @@ export class BoilerplateCard extends LitElement {
     }
 
     this.config = {
-      name: 'Boilerplate',
+      name: 'Donder Footer',
       ...config,
     };
   }
@@ -107,43 +107,88 @@ export class BoilerplateCard extends LitElement {
 
   static get styles(): CSSResultGroup {
     return css`
-      /* REPLACE "jarvis-footer" with actual widget name */
-      .type-custom-jarvis-footer {
+      /* REPLACE "donder-footer" with actual widget name */
+      .type-custom-donder-footer {
         height: 100%;
         width: 100%;
       }
-      .jarvis-widget {
-        height: 100%;
-        width: 100%;
-        /* position: absolute; */
-        top: 0;
-        left: 0;
-        /* padding: 20px; */
+      ha-card.ha-badge {
+        background-color: var(--card-background-color) !important;
         box-sizing: border-box;
-        color: #fff;
+        padding: var(--spacing);
+        display: flex;
+        height: auto;
+        margin: 5px 0;
       }
-      .jarvis-widget.transparent {
-        opacity: .5;
+      ha-card.ha-badge ha-icon {
+        border-radius: 50%;
+        background-color: var(--card-background-color);
+        width: 42px;
+        min-width: 42px;
+        height: 42px;
+        display: flex;
+        text-align: center;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
       }
-      .jarvis-nav-wrapper {
-
+      ha-card.ha-badge .ha-badge-content {
+        margin-left: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        align-content: center;
       }
-      .jarvis-nav-title {
+      ha-card.ha-badge .ha-badge-content .ha-badge-title {
+        font-size: .8rem;
+        font-weight: 400;
+        opacity: 0.7;
         text-transform: uppercase;
-        font-size: 0.9rem;
-        font-weight: 600;
-        font-stretch: 160%;
-        border-left: 3px solid rgb(72, 75, 92);
-        line-height: 1em;
-        padding-left: 7px;
       }
-      .jarvis-nav-button {
-        background: url('/local/jarvis/assets/floor_frame.svg');
-        padding: 50px;
-        background-position: center;
-        background-repeat: no-repeat;
+      ha-card.ha-badge .ha-badge-content .ha-badge-status {
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: normal;
       }
     `;
+  }
+
+  private renderBadge(room: any) {
+    const hasAC = room.climate?.entity
+    const renderThermostat = hasAC || room.climate.internal_temp
+    let widgetDom
+
+    if (renderThermostat){
+      if (hasAC) {
+        const climateEntity = this.hass.states[room.climate?.entity]
+        widgetDom = html`
+          <div class="ha-badge-status">${climateEntity.attributes.current_temperature}${room.climate.attributes.temperature_unit}</div>
+        `
+      } else {
+        const climateEntity = this.hass.states[room.climate?.internal_temp]
+        widgetDom = html`
+          <div class="ha-badge-status">${climateEntity.state}</div>
+        `
+      }
+    }
+    
+    return html`
+      <ha-card
+        @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+          hasHold: hasAction(this.config.hold_action),
+          hasDoubleClick: hasAction(this.config.double_tap_action),
+        })}
+        @click=${(ev) => this.navigate(ev)}
+      >
+        <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
+        <div class="ha-badge-content">
+          <div class="ha-badge-title">${room.name}</div>
+          ${widgetDom}
+        </div>
+      </ha-card>
+    `
   }
 
   protected render(): TemplateResult | void {
@@ -155,21 +200,22 @@ export class BoilerplateCard extends LitElement {
       return this._showError('error message');
     }
 
-    const isSelected = this.config.navigation_path === window.location.pathname
-    const isJarvis = window.location.pathname === '/lovelace/0'
-    const isTransparent = !isJarvis && !isSelected
+    const env = this.hass.states['donder_env.global'].attributes
+    const { rooms } = env
 
     return html`
       <ha-card
+        .header=${this.config.name}
         @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+          hasHold: hasAction(this.config.hold_action),
+          hasDoubleClick: hasAction(this.config.double_tap_action),
+        })}
         tabindex="0"
       >
-        <div class=${'jarvis-widget '+ (isTransparent ? 'transparent' : '')} @click="${() => this.navigate(isSelected)}">
-          <div class="jarvis-nav-wrapper">
-            <div class="jarvis-nav-title">
-              ${this.config.name}
-            </div>
-            <div class="jarvis-nav-button"></div>
+        <div class="donder-widget">
+          <div class="donder-footer-wrapper">
+            ${rooms.map(room => this.renderBadge(room))}
           </div>
         </div>
       </ha-card>
@@ -177,4 +223,4 @@ export class BoilerplateCard extends LitElement {
   }
 }
 
-customElements.define("jarvis-footer", BoilerplateCard);
+customElements.define("donder-footer", BoilerplateCard);

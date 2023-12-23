@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate-card",
+  "name": "donder-footer",
   "version": "1.4.1",
-  "description": "Lovelace boilerplate-card",
+  "description": "Donder Footer",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -10,7 +10,7 @@
     "lovelace",
     "custom-cards"
   ],
-  "module": "boilerplate-card.js",
+  "module": "donder-footer.js",
   "repository": "git@github.com:custom_cards/boilerplate-card.git",
   "author": "Ian Richardson <iantrich@gmail.com>",
   "license": "MIT",

@@ -1,5 +1,5 @@
 {
-    "name": "Boilerplate Card",
+    "name": "Donder Footer",
     "render_readme": true,
-    "filename": "jarvis-entity-template.js"
+    "filename": "donder.footer.js"
 }
