@@ -155,6 +155,7 @@ export class BoilerplateCard extends LitElement {
   }
 
   private renderBadge(room: any) {
+    console.log(room)
     const hasAC = room.climate?.entity
     const renderThermostat = hasAC || room.climate.internal_temp
     let widgetDom
