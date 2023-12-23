@@ -155,16 +155,18 @@ export class BoilerplateCard extends LitElement {
   }
 
   private renderBadge(room: any) {
-    console.log(room)
+    
     const hasAC = room.climate?.entity
     const renderThermostat = hasAC || room.climate.internal_temp
+    console.log(room, hasAC, room.climate?.entity, room.climate?.internal_temp, renderThermostat)
     let widgetDom
 
     if (renderThermostat){
       if (hasAC) {
         const climateEntity = this.hass.states[room.climate?.entity]
+        console.log(climateEntity)
         widgetDom = html`
-          <div class="ha-badge-status">${climateEntity.attributes.current_temperature}${room.climate.attributes.temperature_unit}</div>
+          <div class="ha-badge-status">${climateEntity.attributes.current_temperature}${climateEntity.attributes.temperature_unit}</div>
         `
       } else {
         const climateEntity = this.hass.states[room.climate?.internal_temp]
