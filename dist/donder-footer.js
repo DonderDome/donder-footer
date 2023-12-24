@@ -207,7 +207,7 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
         flex: 0 1 250px;
       }
       ha-card.ha-badge.selected {
-        opacity: 1;
+        opacity: 1 !important;
       }
       ha-card.ha-badge.faded {
         opacity: 0.5;
