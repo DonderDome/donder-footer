@@ -246,7 +246,7 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
     `}renderBadge(t){var e,i,o,n;const s=`/lovelace/${t.id}`===window.location.pathname,r="/lovelace/0"===window.location.pathname,a=null===(e=t.climate)||void 0===e?void 0:e.entity;let l;if(a||(null===(i=t.climate)||void 0===i?void 0:i.internal_temp))if(a){const e=this.hass.states[null===(o=t.climate)||void 0===o?void 0:o.entity];l=O`
           <div class="ha-badge-status">${e.attributes.current_temperature}${e.attributes.temperature_unit}</div>
         `}else{const e=this.hass.states[null===(n=t.climate)||void 0===n?void 0:n.internal_temp];l=O`
-          <div class="ha-badge-status">${e.state}C</div>
+          <div class="ha-badge-status">${e.state}</div>
         `}return O`
       <ha-card
         @action=${this._handleAction}
