@@ -77,6 +77,7 @@ export class BoilerplateCard extends LitElement {
 
   private _handleAction(ev: ActionHandlerEvent): void {
     if (this.hass && this.config && ev.detail.action) {
+      window.alert(ev.detail.action)
       handleAction(this, this.hass, this.config, ev.detail.action);
     }
   }
