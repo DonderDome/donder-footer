@@ -76,7 +76,6 @@ export class BoilerplateCard extends LitElement {
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
-    console.log("handleAction", ev)
     if (this.hass && this.config && ev.detail.action) {
       handleAction(this, this.hass, this.config, ev.detail.action);
     }
@@ -102,8 +101,11 @@ export class BoilerplateCard extends LitElement {
   }
 
   private navigate(ev, room) {
-    console.log("navigate", ev, room)
-    // this.hass.callService('browser_mod', 'navigate', {navigation_path: isSelected ? '/lovelace/0' : this.config.navigation_path})
+    const path = `/lovelace/${room.id}`
+    const isSelected = path === window.location.pathname
+    console.log(path, isSelected, ev)
+    // const isJarvis = window.location.pathname === '/lovelace/0'
+    this.hass.callService('browser_mod', 'navigate', {navigation_path: isSelected ? '/lovelace/0' : path})
   }
 
   static get styles(): CSSResultGroup {
