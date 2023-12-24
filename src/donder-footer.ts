@@ -181,7 +181,7 @@ export class BoilerplateCard extends LitElement {
       } else {
         const climateEntity = this.hass.states[room.climate?.internal_temp]
         widgetDom = html`
-          <div class="ha-badge-status">${climateEntity.state}</div>
+          <div class="ha-badge-status">${climateEntity.state}C</div>
         `
       }
     }

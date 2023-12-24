@@ -240,7 +240,7 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
     `}renderBadge(t){var e,i,o;const n=null===(e=t.climate)||void 0===e?void 0:e.entity;let s;if(n||t.climate.internal_temp)if(n){const e=this.hass.states[null===(i=t.climate)||void 0===i?void 0:i.entity];s=O`
           <div class="ha-badge-status">${e.attributes.current_temperature}${e.attributes.temperature_unit}</div>
         `}else{const e=this.hass.states[null===(o=t.climate)||void 0===o?void 0:o.internal_temp];s=O`
-          <div class="ha-badge-status">${e.state}</div>
+          <div class="ha-badge-status">${e.state}C</div>
         `}return O`
       <ha-card
         @action=${this._handleAction}
