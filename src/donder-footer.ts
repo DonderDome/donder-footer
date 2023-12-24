@@ -134,7 +134,7 @@ export class BoilerplateCard extends LitElement {
         flex: 0 1 250px;
       }
       ha-card.ha-badge.selected {
-        border: 2px solid var(--primary-color);
+        opacity: 1;
       }
       ha-card.ha-badge.faded {
         opacity: 0.5;
