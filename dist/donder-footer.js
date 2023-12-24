@@ -252,7 +252,7 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
         @action=${this._handleAction}
         .actionHandler=${Et({hasHold:_t(this.config.hold_action),hasDoubleClick:_t(this.config.double_tap_action)})}
         @click=${e=>this.navigate(e,t)}
-        class=${`ha-badge ${s?"selected":""} ${r?"":"faded"}}`}
+        class=${`ha-badge ${s?"selected":""} ${r?"":"faded"}`}
       >
         <ha-icon icon=${t.icon||"mdi:home"}></ha-icon>
         <div class="ha-badge-content">

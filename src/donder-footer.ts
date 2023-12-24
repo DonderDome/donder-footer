@@ -204,7 +204,7 @@ export class BoilerplateCard extends LitElement {
           hasDoubleClick: hasAction(this.config.double_tap_action),
         })}
         @click=${(ev) => this.navigate(ev, room)}
-        class=${`ha-badge ${isSelected ? 'selected' : ''} ${!isHome ? 'faded' : ''}}`}
+        class=${`ha-badge ${isSelected ? 'selected' : ''} ${!isHome ? 'faded' : ''}`}
       >
         <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
         <div class="ha-badge-content">
