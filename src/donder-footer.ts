@@ -101,9 +101,10 @@ export class BoilerplateCard extends LitElement {
   }
 
   private navigate(ev, room) {
+    ev.stopPropagation();
     const path = `/lovelace/${room.id}`
     const isSelected = path === window.location.pathname
-    console.log(path, isSelected, ev, localStorage.getItem('browser_mod-browser-id'))
+
     // const isJarvis = window.location.pathname === '/lovelace/0'
     this.hass.callService('browser_mod', 'navigate', {
       path: isSelected ? '/lovelace/0' : path,
@@ -167,9 +168,11 @@ export class BoilerplateCard extends LitElement {
   }
 
   private renderBadge(room: any) {
-    
+    const path = `/lovelace/${room.id}`
+    const isSelected = path === window.location.pathname
     const hasAC = room.climate?.entity
     const renderThermostat = hasAC || room.climate.internal_temp
+    
     let widgetDom
 
     if (renderThermostat){
@@ -194,7 +197,7 @@ export class BoilerplateCard extends LitElement {
           hasDoubleClick: hasAction(this.config.double_tap_action),
         })}
         @click=${(ev) => this.navigate(ev, room)}
-        class='ha-badge'
+        class=${`ha-badge ${isSelected ? 'selected' : ''}`}
       >
         <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
         <div class="ha-badge-content">

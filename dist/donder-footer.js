@@ -186,7 +186,7 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
       <hui-warning>${t}</hui-warning>
     `}_showError(t){const e=document.createElement("hui-error-card");return e.setConfig({type:"error",error:t,origConfig:this.config}),O`
       ${e}
-    `}navigate(t,e){const i=`/lovelace/${e.id}`,o=i===window.location.pathname;console.log(i,o,t,localStorage.getItem("browser_mod-browser-id")),this.hass.callService("browser_mod","navigate",{path:o?"/lovelace/0":i,browser_id:localStorage.getItem("browser_mod-browser-id")})}static get styles(){return s`
+    `}navigate(t,e){t.stopPropagation();const i=`/lovelace/${e.id}`,o=i===window.location.pathname;this.hass.callService("browser_mod","navigate",{path:o?"/lovelace/0":i,browser_id:localStorage.getItem("browser_mod-browser-id")})}static get styles(){return s`
       /* REPLACE "donder-footer" with actual widget name */
       .type-custom-donder-footer {
         height: 100%;
@@ -237,21 +237,21 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
         font-weight: 500;
         line-height: normal;
       }
-    `}renderBadge(t){var e,i,o;const n=null===(e=t.climate)||void 0===e?void 0:e.entity;let s;if(n||t.climate.internal_temp)if(n){const e=this.hass.states[null===(i=t.climate)||void 0===i?void 0:i.entity];s=O`
+    `}renderBadge(t){var e,i,o;const n=`/lovelace/${t.id}`===window.location.pathname,s=null===(e=t.climate)||void 0===e?void 0:e.entity;let r;if(s||t.climate.internal_temp)if(s){const e=this.hass.states[null===(i=t.climate)||void 0===i?void 0:i.entity];r=O`
           <div class="ha-badge-status">${e.attributes.current_temperature}${e.attributes.temperature_unit}</div>
-        `}else{const e=this.hass.states[null===(o=t.climate)||void 0===o?void 0:o.internal_temp];s=O`
+        `}else{const e=this.hass.states[null===(o=t.climate)||void 0===o?void 0:o.internal_temp];r=O`
           <div class="ha-badge-status">${e.state}C</div>
         `}return O`
       <ha-card
         @action=${this._handleAction}
         .actionHandler=${Et({hasHold:_t(this.config.hold_action),hasDoubleClick:_t(this.config.double_tap_action)})}
         @click=${e=>this.navigate(e,t)}
-        class='ha-badge'
+        class=${"ha-badge "+(n?"selected":"")}
       >
         <ha-icon icon=${t.icon||"mdi:home"}></ha-icon>
         <div class="ha-badge-content">
           <div class="ha-badge-title">${t.name}</div>
-          ${s}
+          ${r}
         </div>
       </ha-card>
     `}render(){if(this.config.show_warning)return this._showWarning("warning message");if(this.config.show_error)return this._showError("error message");const t=this.hass.states["donder_env.global"].attributes,{rooms:e}=t;return O`
