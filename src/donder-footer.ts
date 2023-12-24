@@ -105,7 +105,10 @@ export class BoilerplateCard extends LitElement {
     const isSelected = path === window.location.pathname
     console.log(path, isSelected, ev)
     // const isJarvis = window.location.pathname === '/lovelace/0'
-    this.hass.callService('browser_mod', 'navigate', {navigation_path: isSelected ? '/lovelace/0' : path})
+    this.hass.callService('browser_mod', 'navigate', {
+      path: isSelected ? '/lovelace/0' : path,
+      browser_id: localStorage.getItem('browser_mod-browser-id'),
+    })
   }
 
   static get styles(): CSSResultGroup {
