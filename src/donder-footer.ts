@@ -77,8 +77,13 @@ export class BoilerplateCard extends LitElement {
 
   private _handleAction(ev: ActionHandlerEvent): void {
     if (this.hass && this.config && ev.detail.action) {
-      window.alert(ev.detail.action)
       handleAction(this, this.hass, this.config, ev.detail.action);
+    }
+  }
+
+  private _handleBadgeAction(ev: ActionHandlerEvent, room): void {
+    if (this.hass && this.config && ev.detail.action) {
+      this.navigate(ev, room)
     }
   }
 
@@ -199,12 +204,11 @@ export class BoilerplateCard extends LitElement {
     
     return html`
       <ha-card
-        @action=${this._handleAction}
+        @action=${(ev) => this._handleBadgeAction(ev, room)}
         .actionHandler=${actionHandler({
           hasHold: hasAction(this.config.hold_action),
           hasDoubleClick: hasAction(this.config.double_tap_action),
         })}
-        @click=${(ev) => this.navigate(ev, room)}
         class=${`ha-badge ${isSelected ? 'selected' : ''} ${!isHome ? 'faded' : ''}`}
       >
         <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
