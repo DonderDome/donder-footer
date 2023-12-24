@@ -76,6 +76,7 @@ export class BoilerplateCard extends LitElement {
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
+    console.log("handleAction", ev)
     if (this.hass && this.config && ev.detail.action) {
       handleAction(this, this.hass, this.config, ev.detail.action);
     }
@@ -100,9 +101,9 @@ export class BoilerplateCard extends LitElement {
     `;
   }
 
-  private navigate(isSelected: boolean) {
-
-    this.hass.callService('browser_mod', 'navigate', {navigation_path: isSelected ? '/lovelace/0' : this.config.navigation_path})
+  private navigate(ev, room) {
+    console.log("navigate", ev, room)
+    // this.hass.callService('browser_mod', 'navigate', {navigation_path: isSelected ? '/lovelace/0' : this.config.navigation_path})
   }
 
   static get styles(): CSSResultGroup {
@@ -111,6 +112,11 @@ export class BoilerplateCard extends LitElement {
       .type-custom-donder-footer {
         height: 100%;
         width: 100%;
+        background: transparent !important;
+      }
+      .donder-footer-wrapper {
+        display: flex;
+        justify-content: center;
       }
       ha-card.ha-badge {
         background-color: var(--card-background-color) !important;
@@ -118,7 +124,8 @@ export class BoilerplateCard extends LitElement {
         padding: var(--spacing);
         display: flex;
         height: auto;
-        margin: 5px 0;
+        margin: 5px;
+        flex: 0 1 250px;
       }
       ha-card.ha-badge ha-icon {
         border-radius: 50%;
@@ -158,13 +165,11 @@ export class BoilerplateCard extends LitElement {
     
     const hasAC = room.climate?.entity
     const renderThermostat = hasAC || room.climate.internal_temp
-    console.log(room, hasAC, room.climate?.entity, room.climate?.internal_temp, renderThermostat)
     let widgetDom
 
     if (renderThermostat){
       if (hasAC) {
         const climateEntity = this.hass.states[room.climate?.entity]
-        console.log(climateEntity)
         widgetDom = html`
           <div class="ha-badge-status">${climateEntity.attributes.current_temperature}${climateEntity.attributes.temperature_unit}</div>
         `
@@ -183,7 +188,7 @@ export class BoilerplateCard extends LitElement {
           hasHold: hasAction(this.config.hold_action),
           hasDoubleClick: hasAction(this.config.double_tap_action),
         })}
-        @click=${(ev) => this.navigate(ev)}
+        @click=${(ev) => this.navigate(ev, room)}
         class='ha-badge'
       >
         <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
