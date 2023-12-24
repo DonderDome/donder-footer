@@ -133,6 +133,12 @@ export class BoilerplateCard extends LitElement {
         margin: 5px;
         flex: 0 1 250px;
       }
+      ha-card.ha-badge.selected {
+        border: 2px solid var(--primary-color);
+      }
+      ha-card.ha-badge.faded {
+        opacity: 0.5;
+      }
       ha-card.ha-badge ha-icon {
         border-radius: 50%;
         background-color: var(--card-background-color);
@@ -170,6 +176,7 @@ export class BoilerplateCard extends LitElement {
   private renderBadge(room: any) {
     const path = `/lovelace/${room.id}`
     const isSelected = path === window.location.pathname
+    const isHome = window.location.pathname === '/lovelace/0'
     const hasAC = room.climate?.entity
     const renderThermostat = hasAC || room.climate.internal_temp
     
@@ -197,7 +204,7 @@ export class BoilerplateCard extends LitElement {
           hasDoubleClick: hasAction(this.config.double_tap_action),
         })}
         @click=${(ev) => this.navigate(ev, room)}
-        class=${`ha-badge ${isSelected ? 'selected' : ''}`}
+        class=${`ha-badge ${isSelected ? 'selected' : ''} ${!isHome ? 'faded' : ''}}`}
       >
         <ha-icon icon=${room.icon || 'mdi:home'}></ha-icon>
         <div class="ha-badge-content">
