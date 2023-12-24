@@ -178,7 +178,7 @@ export class BoilerplateCard extends LitElement {
     const isSelected = path === window.location.pathname
     const isHome = window.location.pathname === '/lovelace/0'
     const hasAC = room.climate?.entity
-    const renderThermostat = hasAC || room.climate.internal_temp
+    const renderThermostat = hasAC || room.climate?.internal_temp
     
     let widgetDom
 

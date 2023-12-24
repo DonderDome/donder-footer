@@ -243,21 +243,21 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
         font-weight: 500;
         line-height: normal;
       }
-    `}renderBadge(t){var e,i,o;const n=`/lovelace/${t.id}`===window.location.pathname,s="/lovelace/0"===window.location.pathname,r=null===(e=t.climate)||void 0===e?void 0:e.entity;let a;if(r||t.climate.internal_temp)if(r){const e=this.hass.states[null===(i=t.climate)||void 0===i?void 0:i.entity];a=O`
+    `}renderBadge(t){var e,i,o,n;const s=`/lovelace/${t.id}`===window.location.pathname,r="/lovelace/0"===window.location.pathname,a=null===(e=t.climate)||void 0===e?void 0:e.entity;let l;if(a||(null===(i=t.climate)||void 0===i?void 0:i.internal_temp))if(a){const e=this.hass.states[null===(o=t.climate)||void 0===o?void 0:o.entity];l=O`
           <div class="ha-badge-status">${e.attributes.current_temperature}${e.attributes.temperature_unit}</div>
-        `}else{const e=this.hass.states[null===(o=t.climate)||void 0===o?void 0:o.internal_temp];a=O`
+        `}else{const e=this.hass.states[null===(n=t.climate)||void 0===n?void 0:n.internal_temp];l=O`
           <div class="ha-badge-status">${e.state}C</div>
         `}return O`
       <ha-card
         @action=${this._handleAction}
         .actionHandler=${Et({hasHold:_t(this.config.hold_action),hasDoubleClick:_t(this.config.double_tap_action)})}
         @click=${e=>this.navigate(e,t)}
-        class=${`ha-badge ${n?"selected":""} ${s?"":"faded"}}`}
+        class=${`ha-badge ${s?"selected":""} ${r?"":"faded"}}`}
       >
         <ha-icon icon=${t.icon||"mdi:home"}></ha-icon>
         <div class="ha-badge-content">
           <div class="ha-badge-title">${t.name}</div>
-          ${a}
+          ${l}
         </div>
       </ha-card>
     `}render(){if(this.config.show_warning)return this._showWarning("warning message");if(this.config.show_error)return this._showError("error message");const t=this.hass.states["donder_env.global"].attributes,{rooms:e}=t;return O`
