@@ -72,7 +72,39 @@ export class BoilerplateCard extends LitElement {
       return false;
     }
 
-    return hasConfigOrEntityChanged(this, changedProps, false);
+    return this.hasConfigOrEntityChanged(this, changedProps, false);
+  }
+
+  protected hasConfigOrEntityChanged(element: any, changedProps: PropertyValues, forceUpdate: boolean): boolean {
+
+    if (changedProps.has('config') || forceUpdate) {
+      return true;
+    }
+
+    if (element.config!.room_id) {
+      const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
+      if (oldHass) {
+        let hasChanged = false
+        
+        const env = this.hass.states['donder_env.global'].attributes
+        const { rooms } = env
+        
+        for (let i=0; i<=rooms.length-1; i++) {
+          for (let j=0; j<=rooms[i].climate.length-1; j++) {
+            const { entity } = rooms[i].climate[j]
+            if (entity && oldHass.states[entity] !== element.hass!.states[entity]) {
+              hasChanged = true
+              break
+            }
+          }
+        }
+        
+        return hasChanged
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
