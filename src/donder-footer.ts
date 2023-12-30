@@ -91,8 +91,13 @@ export class BoilerplateCard extends LitElement {
         
         for (let i=0; i<=rooms.length-1; i++) {
           for (let j=0; j<=rooms[i].climate.length-1; j++) {
-            const { entity } = rooms[i].climate[j]
-            if (entity && oldHass.states[entity] !== element.hass!.states[entity]) {
+            const climateEntity = rooms[i].climate[j].entity
+            const internalEntity = rooms[i].climate[j].internal_temp
+            if (climateEntity && oldHass.states[climateEntity] !== element.hass!.states[climateEntity]) {
+              hasChanged = true
+              break
+            }
+            if (internalEntity && oldHass.states[internalEntity] !== element.hass!.states[internalEntity]) {
               hasChanged = true
               break
             }
