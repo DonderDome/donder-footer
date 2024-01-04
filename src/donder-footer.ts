@@ -103,7 +103,7 @@ export class BoilerplateCard extends LitElement {
             }
           }
         }
-        
+        console.log("hasChanged", hasChanged);
         return hasChanged
       }
       return true;
@@ -227,6 +227,7 @@ export class BoilerplateCard extends LitElement {
     if (renderThermostat){
       if (hasAC) {
         const climateEntity = this.hass.states[room.climate?.entity]
+        console.log(climateEntity.attributes.current_temperature)
         widgetDom = html`
           <div class="ha-badge-status">${climateEntity.attributes.current_temperature}${climateEntity.attributes.temperature_unit}</div>
         `
