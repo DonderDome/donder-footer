@@ -76,7 +76,7 @@ export class BoilerplateCard extends LitElement {
   }
 
   protected hasConfigOrEntityChanged(element: any, changedProps: PropertyValues, forceUpdate: boolean): boolean {
-
+    console.log("hasConfigOrEntityChanged");
     if (changedProps.has('config') || forceUpdate) {
       return true;
     }
@@ -216,6 +216,7 @@ export class BoilerplateCard extends LitElement {
   }
 
   private renderBadge(room: any) {
+    console.log("re-render", room.id)
     const path = `/lovelace/${room.id}`
     const isSelected = path === window.location.pathname
     const isHome = window.location.pathname === '/lovelace/0'
