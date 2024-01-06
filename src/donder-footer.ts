@@ -76,6 +76,7 @@ export class BoilerplateCard extends LitElement {
   }
 
   protected hasConfigOrEntityChanged(element: any, changedProps: PropertyValues, forceUpdate: boolean): boolean {
+    console.log("hasConfigOrEntityChanged")
     if (changedProps.has('config') || forceUpdate) {
       return true;
     }
@@ -87,13 +88,14 @@ export class BoilerplateCard extends LitElement {
         
         const env = this.hass.states['donder_env.global'].attributes
         const { rooms } = env
-        
+        console.log("rooms", rooms)
         for (let i=0; i<=rooms.length-1; i++) {
           if (!rooms[i].climate) {
             continue;
           }
           for (let j=0; j<=rooms[i].climate.length-1; j++) {
             const climateEntity = rooms[i].climate[j].entity
+            console.log(climateEntity)
             const internalEntity = rooms[i].climate[j].internal_temp
             if (climateEntity && oldHass.states[climateEntity] !== element.hass!.states[climateEntity]) {
               hasChanged = true
