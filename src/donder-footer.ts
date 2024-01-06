@@ -76,7 +76,7 @@ export class BoilerplateCard extends LitElement {
   }
 
   protected hasConfigOrEntityChanged(element: any, changedProps: PropertyValues, forceUpdate: boolean): boolean {
-    console.log("hasConfigOrEntityChanged");
+    console.log("hasConfigOrEntityChanged", element.config!.room_id);
     if (changedProps.has('config') || forceUpdate) {
       return true;
     }
@@ -87,6 +87,7 @@ export class BoilerplateCard extends LitElement {
         let hasChanged = false
         
         const env = this.hass.states['donder_env.global'].attributes
+        console.log("env", env);
         const { rooms } = env
         
         for (let i=0; i<=rooms.length-1; i++) {
@@ -216,7 +217,6 @@ export class BoilerplateCard extends LitElement {
   }
 
   private renderBadge(room: any) {
-    console.log("re-render", room.id)
     const path = `/lovelace/${room.id}`
     const isSelected = path === window.location.pathname
     const isHome = window.location.pathname === '/lovelace/0'
@@ -228,7 +228,7 @@ export class BoilerplateCard extends LitElement {
     if (renderThermostat){
       if (hasAC) {
         const climateEntity = this.hass.states[room.climate?.entity]
-        console.log(climateEntity.attributes.current_temperature)
+        console.log(room.id,":", climateEntity.attributes.current_temperature)
         widgetDom = html`
           <div class="ha-badge-status">${climateEntity.attributes.current_temperature}${climateEntity.attributes.temperature_unit}</div>
         `
